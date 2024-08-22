@@ -1,0 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    public float moveSpeed, powerDash, timeDash;
+    public GameObject ghost;
+    bool isDash = false, canDash = true;
+    Rigidbody2D rig2D;
+    Animator animator;
+    public Joystick joystick;
+    [HideInInspector] public Vector2 move;
+    void Start()
+    {
+        rig2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        rig2D.interpolation = RigidbodyInterpolation2D.Interpolate;
+    }
+    void FixedUpdate()
+    {
+        Move();
+        MoveAnim();
+        if (Input.GetKeyDown(KeyCode.Space)) startDash();
+    }
+
+    public void startDash()
+    {
+        if (canDash == true && move.magnitude != 0) StartCoroutine(Dash());
+    }
+    void Move()
+    {
+        //Move with keyboard
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        //Move with joystick
+        // float moveX = joystick.Horizontal;
+        // float moveY = joystick.Vertical;
+
+        move = new Vector2(moveX, moveY).normalized;
+        rig2D.MovePosition(rig2D.position + move * moveSpeed * Time.fixedDeltaTime);
+    }
+    void MoveAnim()
+    {
+        animator.SetFloat("Speed", move.sqrMagnitude);
+        animator.SetFloat("Horizontal", move.x);
+        animator.SetFloat("Vertical", move.y);
+    }
+    IEnumerator GhostEffect()
+    {
+        while (isDash)
+        {
+            Instantiate(ghost, this.transform.position, this.transform.rotation);
+            yield return new WaitForSeconds(0.04f);
+        }
+    }
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDash = true;
+        moveSpeed += powerDash;
+        StartCoroutine(GhostEffect());
+        yield return new WaitForSeconds(timeDash);
+        moveSpeed -= powerDash;
+        StopCoroutine(GhostEffect());
+        isDash = false;
+        yield return new WaitForSeconds(0.4f);
+        canDash = true;
+    }
+}
