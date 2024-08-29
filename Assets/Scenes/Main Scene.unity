@@ -1077,6 +1077,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6425150206334483227, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
+      propertyPath: radius
+      value: 2.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425150206334483227, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
       propertyPath: weapon
       value: 
       objectReference: {fileID: 8508509589675402747, guid: cc1865c4ad870144d8616dfde8239f9f, type: 3}

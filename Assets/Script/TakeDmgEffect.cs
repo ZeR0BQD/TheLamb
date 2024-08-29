@@ -6,10 +6,12 @@ public class TakeDmgEffect : MonoBehaviour
 {
     // Start is called before the first frame update
     SpriteRenderer sprite;
-    void Start (){
+    void Start()
+    {
         sprite = GetComponent<SpriteRenderer>();
     }
-    public void Using(){
+    public void Using()
+    {
         StartCoroutine(FlashColor());
     }
     IEnumerator FlashColor()
@@ -17,9 +19,9 @@ public class TakeDmgEffect : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             sprite.color = Color.red;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             sprite.color = Color.white;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }
