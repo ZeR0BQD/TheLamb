@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    Player player;
-    public float damage;
+    Transform player;
+    public float damage, speedRotate;
     void Start()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
     void Update()
     {
-        float angle = Mathf.Atan2(player.move.y, player.move.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        transform.position = player.transform.position - new Vector3(0f, 0.6f, 0f);
+        transform.RotateAround(player.position, Vector3.back, speedRotate * Time.deltaTime);
     }
     void OnCollisionEnter2D(Collision2D collision2D)
     {
