@@ -2,31 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed, powerDash, timeDash;
-    public GameObject ghost;
-    bool isDash = false, canDash = true, direc = false;
-    Rigidbody2D rig2D;
-    Animator animator;
-    SpriteRenderer sprite;
     [SerializeField] protected Joystick fixedJoystick;
-    [HideInInspector] public Vector2 move;
+    [SerializeField] protected float moveSpeed, powerDash, timeDash;
+    public GameObject ghost;
+    protected bool isDash = false, canDash = true, direc = false;
+    protected Vector2 move;
+    Rigidbody2D rig2D;
+    SpriteRenderer sprite;
+
     void Start()
     {
         rig2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         rig2D.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
     void FixedUpdate()
     {
         Move();
-        MoveAnim();
         Flip();
         if (Input.GetKeyDown(KeyCode.Space)) StartDash();
     }
-
     private void Reset()
     {
         this.LoadComponents();
@@ -44,26 +41,19 @@ public class Player : MonoBehaviour
         this.powerDash = 24f;
         this.timeDash = 0.2f;
     }
-
-    public void StartDash()
-    {
-        if (canDash == true && move.magnitude != 0) StartCoroutine(Dash());
-    }
-
     void Move()
     {
-        // //Move with keyboard
-        // float moveX = Input.GetAxisRaw("Horizontal");
-        // float moveY = Input.GetAxisRaw("Vertical");
+        //Move with keyboard
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
 
-        //Move with joystick
-        float moveX = fixedJoystick.Horizontal;
-        float moveY = fixedJoystick.Vertical;
+        // //Move with joystick
+        // float moveX = fixedJoystick.Horizontal;
+        // float moveY = fixedJoystick.Vertical;
 
         move = new Vector2(moveX, moveY).normalized;
         rig2D.MovePosition(rig2D.position + move * moveSpeed * Time.fixedDeltaTime);
     }
-
     void Flip()
     {
         if (move.x < 0) direc = true;
@@ -71,9 +61,9 @@ public class Player : MonoBehaviour
         sprite.flipX = direc;
     }
 
-    void MoveAnim()
+    void StartDash()
     {
-        animator.SetFloat("Speed", move.sqrMagnitude);
+        if (canDash == true && move.magnitude != 0) StartCoroutine(Dash());
     }
 
     IEnumerator GhostEffect()

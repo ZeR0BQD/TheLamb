@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2014654464825991162}
   - component: {fileID: 8664314338503761270}
   - component: {fileID: 8141956061475089484}
-  - component: {fileID: 8339313159445655182}
-  - component: {fileID: 6425150206334483227}
+  - component: {fileID: 6313390798119507907}
+  - component: {fileID: 2551856520538591788}
   m_Layer: 0
   m_Name: Lamb
   m_TagString: Player
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8339313159445655182
+--- !u!114 &6313390798119507907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,16 +145,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 184322820255677766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5ca521e9ac8fe48917cf3e9c4dcf59, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f00f27533edac048ab55d1c82fdee69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fixedJoystick: {fileID: 0}
   moveSpeed: 5
   powerDash: 24
   timeDash: 0.2
-  ghost: {fileID: 0}
-  joystick: {fileID: 0}
-  move: {x: 0, y: 0}
---- !u!114 &6425150206334483227
+  ghost: {fileID: 5254597882049773493, guid: 193d07ed0076f35489bbc4b4df4c05c4, type: 3}
+--- !u!114 &2551856520538591788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,10 +162,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 184322820255677766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 008f9046e86f68d4ba1178894858f2ac, type: 3}
+  m_Script: {fileID: 11500000, guid: b98b5afbfbf880d48ae10b79179f1eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 8508509589675402747, guid: cc1865c4ad870144d8616dfde8239f9f, type: 3}
-  radius: 2.5
-  speed: 1
-  direc: 0
