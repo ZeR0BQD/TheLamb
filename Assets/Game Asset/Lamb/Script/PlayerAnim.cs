@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerAnim : MonoBehaviour
 {
     Animator animator;
-    Rigidbody2D rig2D;
+    PlayerMovement playerMovement;
     void Start()
     {
         animator = GetComponent<Animator>();
-        rig2D = GetComponent<Rigidbody2D>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
     void Update()
     {
-        animator.SetFloat("Speed", rig2D.velocity.magnitude);
+        animator.SetFloat("Speed", playerMovement.move.magnitude);
     }
 }

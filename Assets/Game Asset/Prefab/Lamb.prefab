@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1352340374941266702}
   - component: {fileID: 2014654464825991162}
   - component: {fileID: 8664314338503761270}
-  - component: {fileID: 8141956061475089484}
+  - component: {fileID: 504133091477444495}
   - component: {fileID: 6313390798119507907}
   - component: {fileID: 2551856520538591788}
   m_Layer: 0
@@ -109,7 +109,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!50 &8141956061475089484
+--- !u!50 &504133091477444495
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 184322820255677766}
   m_BodyType: 0
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -132,7 +132,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
