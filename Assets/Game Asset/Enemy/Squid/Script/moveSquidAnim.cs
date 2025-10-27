@@ -16,13 +16,15 @@ public class moveSquidAnim : StateMachineBehaviour
     {
         //Move
         if (Vector3.Distance(animator.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) > squid.distanceAttackTarget && squid.attackState == false)
-        {
-            animator.transform.position = Vector2.MoveTowards(animator.transform.position, MoveToPoint(GameObject.FindGameObjectWithTag("Player").transform.position, animator.transform.position, 0.1f), squid.speed * Time.deltaTime);
-        }
-        else
-        {
-            squid.attackState = true;
-        }
+            if (Vector3.Distance(animator.transform.position, squid.playerTransform.position) > squid.distanceAttackTarget && squid.attackState == false)
+            {
+                animator.transform.position = Vector2.MoveTowards(animator.transform.position, MoveToPoint(GameObject.FindGameObjectWithTag("Player").transform.position, animator.transform.position, 0.1f), squid.speed * Time.deltaTime);
+                animator.transform.position = Vector2.MoveTowards(animator.transform.position, MoveToPoint(squid.playerTransform.position, animator.transform.position, 0.1f), squid.speed * Time.deltaTime);
+            }
+            else
+            {
+                squid.attackState = true;
+            }
     }
 
     Vector2 MoveToPoint(Vector2 A, Vector2 B, float H)
