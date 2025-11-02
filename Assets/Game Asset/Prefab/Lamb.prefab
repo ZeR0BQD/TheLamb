@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 504133091477444495}
   - component: {fileID: 4494847914586458943}
   - component: {fileID: 3017102547179987421}
+  - component: {fileID: 9048886168719566298}
   m_Layer: 0
   m_Name: Lamb
   m_TagString: Player
@@ -170,4 +171,18 @@ MonoBehaviour:
   <moveSpeed>k__BackingField: 0
   <powerDash>k__BackingField: 0
   <timeDash>k__BackingField: 0
-  move: {x: 0, y: 0}
+  <move>k__BackingField: {x: 0, y: 0}
+--- !u!114 &9048886168719566298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184322820255677766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98b5afbfbf880d48ae10b79179f1eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimMoving
+  lastPositionX: 0
+  lastDirecMove: 0

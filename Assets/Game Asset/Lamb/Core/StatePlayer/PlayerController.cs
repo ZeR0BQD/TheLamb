@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public float moveSpeed { get; private set; }
     [field: SerializeField] public float powerDash { get; private set; }
     [field: SerializeField] public float timeDash { get; private set; }
-    public Vector2 move;
+    [field: SerializeField] public Vector2 move { get; set; }
     public Rigidbody2D rig2D { get; private set; }
     private StateManager _stateManager;
 

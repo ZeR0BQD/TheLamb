@@ -49,7 +49,7 @@ namespace StatePattern.Player
 
             public void Exit()
             {
-
+                _BehaviorManager.ExecuteMove(_player);
             }
         }
         //---------------------------------------
