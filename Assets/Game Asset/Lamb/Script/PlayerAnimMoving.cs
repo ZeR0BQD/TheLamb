@@ -7,11 +7,6 @@ public class PlayerAnimMoving : MonoBehaviour
     Animator animator;
     PlayerController _player;
     [HideInInspector] public float lastPositionX, lastDirecMove;
-
-    // public PlayerAnimMoving(PlayerController player)
-    // {
-    //     _player = player;
-    // }
     void Start()
     {
         _player = GetComponent<PlayerController>();
@@ -20,7 +15,6 @@ public class PlayerAnimMoving : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(_player.move);
         Flip();
         animator.SetFloat("Speed", _player.move.magnitude);
         animator.SetFloat("DirecX", _player.move.x);
