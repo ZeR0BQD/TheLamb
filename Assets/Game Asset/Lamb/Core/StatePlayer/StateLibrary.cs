@@ -4,29 +4,6 @@ namespace StatePattern.Player
 {
     public class StateLibrary
     {
-        public class IdleState : IState
-        {
-            private PlayerController _player;
-            public IdleState(PlayerController player)
-            {
-                _player = player;
-            }
-            public void Enter()
-            {
-
-            }
-
-            public void Execute()
-            {
-
-            }
-
-            public void Exit()
-            {
-
-            }
-        }
-        //----------------------------------------
         public class MoveState : IState
         {
             private BehaviorManager _BehaviorManager;

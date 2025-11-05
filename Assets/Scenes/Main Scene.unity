@@ -389,6 +389,10 @@ PrefabInstance:
       propertyPath: fixedJoystick
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9048886168719566298, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2551856520538591788, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
     m_RemovedGameObjects: []

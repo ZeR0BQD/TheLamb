@@ -12,11 +12,12 @@ namespace StatePattern.Player
         private BehaviorManager _BehaviorManager;
         private void Awake()
         {
-            _player = GetComponent<PlayerController>();
-
             _BehaviorManager = new BehaviorManager();
+            //-----------------------
+            _player = GetComponent<PlayerController>();
             _idleState = new StateLibrary.IdleState(_player);
             _moveState = new StateLibrary.MoveState(_player, _BehaviorManager);
+            //------------------------
         }
         private void Start()
         {
