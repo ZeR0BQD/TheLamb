@@ -1,5 +1,6 @@
 using UnityEngine;
-using Behavior.Player; // Thêm namespace của Behavior
+using Behavior.Player;
+
 namespace StatePattern.Player
 {
     [RequireComponent(typeof(PlayerController))]
@@ -10,15 +11,16 @@ namespace StatePattern.Player
         public StateLibrary.MoveState _moveState { get; private set; }
         private PlayerController _player;
         private BehaviorManager _BehaviorManager;
+        public Vector2 MoveInput { get; private set; }
+
         private void Awake()
         {
             _BehaviorManager = new BehaviorManager();
-            //-----------------------
             _player = GetComponent<PlayerController>();
-            _idleState = new StateLibrary.IdleState(_player);
-            _moveState = new StateLibrary.MoveState(_player, _BehaviorManager);
-            //------------------------
+            _idleState = new StateLibrary.IdleState(this);
+            _moveState = new StateLibrary.MoveState(_player, _BehaviorManager, this);
         }
+
         private void Start()
         {
             ChangeState(_idleState);
@@ -26,15 +28,19 @@ namespace StatePattern.Player
 
         private void Update()
         {
+
+            MoveInput = _player.moveInput;
             _currentState?.Execute();
+        }
+        private void FixedUpdate()
+        {
+            _currentState?.FixedExecute();
         }
 
         public void ChangeState(IState newState)
         {
-            if (_currentState == newState)
-            {
-                return;
-            }
+            if (_currentState == newState) return;
+
             _currentState?.Exit();
             _currentState = newState;
             _currentState?.Enter();

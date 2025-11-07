@@ -5,6 +5,7 @@ namespace StatePattern.Player
     {
         void Enter();
         void Execute();
+        void FixedExecute();
         void Exit();
     }
 }

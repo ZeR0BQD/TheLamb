@@ -1,24 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using StatePattern.Player;
 using UnityEngine;
 
 public class PlayerAnimMoving : MonoBehaviour
 {
     Animator animator;
-    PlayerController _player;
+    StateManager _StateManager;
     [HideInInspector] public float lastPositionX, lastDirecMove;
     void Start()
     {
-        _player = GetComponent<PlayerController>();
+        _StateManager = GetComponent<StateManager>();
         animator = GetComponent<Animator>();
         lastPositionX = transform.position.x;
     }
     void Update()
     {
         Flip();
-        animator.SetFloat("Speed", _player.move.magnitude);
-        animator.SetFloat("DirecX", _player.move.x);
-        animator.SetFloat("DirecY", _player.move.y);
+        animator.SetFloat("Speed", _StateManager.MoveInput.sqrMagnitude);
+        animator.SetFloat("DirecX", _StateManager.MoveInput.x);
+        animator.SetFloat("DirecY", _StateManager.MoveInput.y);
     }
 
     void Flip()

@@ -293,7 +293,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1648211528
+--- !u!1001 &2103683257
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -355,46 +355,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3017102547179987421, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
       propertyPath: <powerDash>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313390798119507907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: ghost
-      value: 
-      objectReference: {fileID: 5254597882049773493, guid: 193d07ed0076f35489bbc4b4df4c05c4, type: 3}
-    - target: {fileID: 6313390798119507907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: timeDash
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313390798119507907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: moveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6313390798119507907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: powerDash
       value: 24
       objectReference: {fileID: 0}
-    - target: {fileID: 6313390798119507907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: fixedJoystick
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8648442721126912907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: ghost
-      value: 
-      objectReference: {fileID: 5254597882049773493, guid: 193d07ed0076f35489bbc4b4df4c05c4, type: 3}
-    - target: {fileID: 8648442721126912907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: moveSpeed
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8648442721126912907, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: fixedJoystick
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9048886168719566298, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2551856520538591788, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -405,4 +368,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 743567074}
   - {fileID: 1383099525}
-  - {fileID: 1648211528}
+  - {fileID: 2103683257}
