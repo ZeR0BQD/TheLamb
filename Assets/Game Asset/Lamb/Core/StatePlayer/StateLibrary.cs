@@ -53,12 +53,12 @@ namespace StatePattern.Player
             public void FixedExecute()
             {
                 Vector2 currentInput = _stateManager.MoveInput;
-                _BehaviorManager.execBehavior(_player, currentInput);
+                _BehaviorManager.Get<BehaviorLibrary>().Run(_player, currentInput);
             }
 
             public void Exit()
             {
-                _BehaviorManager.execBehavior(_player, Vector2.zero);
+                _BehaviorManager.Get<BehaviorLibrary>().Run(_player, Vector2.zero);
             }
         }
         //---------------------------------------
