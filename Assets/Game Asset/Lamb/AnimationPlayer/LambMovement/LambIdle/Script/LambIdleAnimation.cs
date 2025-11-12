@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LambIdleAnimation : StateMachineBehaviour
 {
-    PlayerAnimMoving direcMove;
+    PlayerController _player;
     SpriteRenderer spriteR;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerAnimMoving direcMove = animator.GetComponent<PlayerAnimMoving>();
+        _player = animator.GetComponent<PlayerController>();
         spriteR = animator.GetComponent<SpriteRenderer>();
-        spriteR.flipX = direcMove.lastDirecMove == -1 ? true : false;
+        spriteR.flipX = _player.lastDirecMove == Vector2.left ? true : false;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

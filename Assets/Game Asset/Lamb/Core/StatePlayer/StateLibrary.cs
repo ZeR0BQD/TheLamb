@@ -1,5 +1,6 @@
 using UnityEngine;
 using Behavior.Player;
+using DG.Tweening;
 
 namespace StatePattern.Player
 {
@@ -19,23 +20,25 @@ namespace StatePattern.Player
 
             public void Execute()
             {
-                if (_stateManager.MoveInput != Vector2.zero)
+                if (_stateManager._player.moveInput != Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._moveState);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    _stateManager.ChangeState(_stateManager._dashState);
                 }
             }
             public void FixedExecute() { }
         }
-
         //---------------------------------------
         public class MoveState : IState
         {
             private BehaviorManager _BehaviorManager;
-            private PlayerController _player;
             private StateManager _stateManager;
-            public MoveState(PlayerController player, BehaviorManager BehaviorManager, StateManager stateManager)
+            public MoveState(BehaviorManager BehaviorManager, StateManager stateManager)
             {
-                _player = player;
                 _BehaviorManager = BehaviorManager;
                 _stateManager = stateManager;
             }
@@ -44,21 +47,58 @@ namespace StatePattern.Player
 
             public void Execute()
             {
-                if (_stateManager.MoveInput == Vector2.zero)
+                if (_stateManager._player.moveInput == Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._idleState);
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    _stateManager.ChangeState(_stateManager._dashState);
                 }
             }
 
             public void FixedExecute()
             {
-                Vector2 currentInput = _stateManager.MoveInput;
-                _BehaviorManager.Get<BehaviorLibrary>().Run(_player, currentInput);
+                _BehaviorManager.Get<BehaviorLibrary>().Run(_stateManager._player);
             }
 
             public void Exit()
             {
-                _BehaviorManager.Get<BehaviorLibrary>().Run(_player, Vector2.zero);
+                // _BehaviorManager.Get<BehaviorLibrary>().Run(_stateManager._player);
+            }
+        }
+        //---------------------------------------
+        public class DashState : IState
+        {
+            private Tween _dashTween;
+            private StateManager _stateManager;
+            private BehaviorManager _BehaviorManager;
+
+            public DashState(BehaviorManager behaviorManager, StateManager stateManager)
+            {
+                _stateManager = stateManager;
+                _BehaviorManager = behaviorManager;
+            }
+            public void Enter()
+            {
+                _stateManager._player.rig2D.DOKill();
+                _dashTween = _BehaviorManager.Get<BehaviorLibrary>().Dash(_stateManager._player).OnComplete(() =>
+                {
+                    _stateManager.ChangeState(_stateManager._idleState);
+                });
+            }
+            public void Execute()
+            {
+
+            }
+            public void FixedExecute()
+            {
+
+            }
+            public void Exit()
+            {
+                _dashTween?.Kill();
             }
         }
         //---------------------------------------

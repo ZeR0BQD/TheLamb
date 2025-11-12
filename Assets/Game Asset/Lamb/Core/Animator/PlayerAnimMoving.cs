@@ -5,27 +5,12 @@ using UnityEngine;
 
 public class PlayerAnimMoving : MonoBehaviour
 {
-    Animator animator;
-    StateManager _StateManager;
-    [HideInInspector] public float lastPositionX, lastDirecMove;
-    void Start()
-    {
-        _StateManager = GetComponent<StateManager>();
-        animator = GetComponent<Animator>();
-        lastPositionX = transform.position.x;
-    }
+    Animator animator => GetComponent<Animator>();
+    StateManager _stateManager => GetComponent<StateManager>();
     void Update()
     {
-        Flip();
-        animator.SetFloat("Speed", _StateManager.MoveInput.sqrMagnitude);
-        animator.SetFloat("DirecX", _StateManager.MoveInput.x);
-        animator.SetFloat("DirecY", _StateManager.MoveInput.y);
-    }
-
-    void Flip()
-    {
-        if (lastPositionX > transform.position.x) lastDirecMove = -1;
-        else if (lastPositionX < transform.position.x) lastDirecMove = 1;
-        lastPositionX = transform.position.x;
+        animator.SetFloat("Speed", _stateManager._player.moveInput.sqrMagnitude);
+        animator.SetFloat("DirecX", _stateManager._player.moveInput.x);
+        animator.SetFloat("DirecY", _stateManager._player.moveInput.y);
     }
 }

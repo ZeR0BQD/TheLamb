@@ -1,5 +1,6 @@
 using UnityEngine;
 using Behavior.Player;
+using Unity.VisualScripting;
 
 namespace StatePattern.Player
 {
@@ -8,17 +9,18 @@ namespace StatePattern.Player
     {
         private IState _currentState;
         public StateLibrary.IdleState _idleState { get; private set; }
+        public StateLibrary.DashState _dashState { get; private set; }
         public StateLibrary.MoveState _moveState { get; private set; }
-        private PlayerController _player;
-        private BehaviorManager _BehaviorManager;
-        public Vector2 MoveInput { get; private set; }
+        public PlayerController _player { get; private set; }
+        private BehaviorManager _behaviorManager;
 
         private void Awake()
         {
-            _BehaviorManager = new BehaviorManager();
+            _behaviorManager = new BehaviorManager();
             _player = GetComponent<PlayerController>();
             _idleState = new StateLibrary.IdleState(this);
-            _moveState = new StateLibrary.MoveState(_player, _BehaviorManager, this);
+            _moveState = new StateLibrary.MoveState(_behaviorManager, this);
+            _dashState = new StateLibrary.DashState(_behaviorManager, this);
         }
 
         private void Start()
@@ -29,7 +31,13 @@ namespace StatePattern.Player
         private void Update()
         {
 
-            MoveInput = _player.moveInput;
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {
+            //     Debug.Log(Input.GetKeyDown(KeyCode.Space));
+            //     ChangeState(_dashState);
+            // }
+
+
             _currentState?.Execute();
         }
         private void FixedUpdate()

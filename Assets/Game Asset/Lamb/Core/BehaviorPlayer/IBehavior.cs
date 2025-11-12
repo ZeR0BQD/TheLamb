@@ -1,8 +1,9 @@
-using UnityEngine;
+using DG.Tweening;
 namespace Behavior.Player
 {
     public interface IBehavior
     {
-        void Run(PlayerController player, Vector2 moveInput);
+        void Run(PlayerController _player);
+        Tween Dash(PlayerController _player);
     }
 }
