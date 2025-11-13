@@ -1,9 +1,13 @@
 using DG.Tweening;
 namespace Behavior.Player
 {
-    public interface IBehavior
+    public interface IRunnable
     {
-        void Run(PlayerController _player);
-        Tween Dash(PlayerController _player);
+        void Run(PlayerController player);
+    }
+
+    public interface IDashable
+    {
+        Tween Dash(PlayerController player);
     }
 }

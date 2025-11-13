@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rig2D = GetComponent<Rigidbody2D>();
+        rig2D.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
     private void Start()
@@ -23,9 +24,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        // Chỉ cập nhật hướng cuối cùng khi có input theo chiều ngang
         if (moveInput.x != 0)
         {
-            lastDirecMove = new Vector2(moveInput.x > 0 ? 1 : -1, 0);
+            lastDirecMove = new Vector2(moveInput.x, 0).normalized;
         }
     }
 

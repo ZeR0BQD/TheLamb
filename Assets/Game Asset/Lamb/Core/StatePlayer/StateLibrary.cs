@@ -33,13 +33,13 @@ namespace StatePattern.Player
             public void FixedExecute() { }
         }
         //---------------------------------------
-        public class MoveState : IState
+        public class RunState : IState
         {
-            private BehaviorManager _BehaviorManager;
+            private readonly IRunnable _runAction;
             private StateManager _stateManager;
-            public MoveState(BehaviorManager BehaviorManager, StateManager stateManager)
+            public RunState(IRunnable runAction, StateManager stateManager)
             {
-                _BehaviorManager = BehaviorManager;
+                _runAction = runAction;
                 _stateManager = stateManager;
             }
 
@@ -60,12 +60,12 @@ namespace StatePattern.Player
 
             public void FixedExecute()
             {
-                _BehaviorManager.Get<BehaviorLibrary>().Run(_stateManager._player);
+                _runAction.Run(_stateManager._player);
             }
 
             public void Exit()
             {
-                // _BehaviorManager.Get<BehaviorLibrary>().Run(_stateManager._player);
+
             }
         }
         //---------------------------------------
@@ -73,17 +73,17 @@ namespace StatePattern.Player
         {
             private Tween _dashTween;
             private StateManager _stateManager;
-            private BehaviorManager _BehaviorManager;
+            private readonly IDashable _dashAction;
 
-            public DashState(BehaviorManager behaviorManager, StateManager stateManager)
+            public DashState(IDashable dashAction, StateManager stateManager)
             {
                 _stateManager = stateManager;
-                _BehaviorManager = behaviorManager;
+                _dashAction = dashAction;
             }
             public void Enter()
             {
                 _stateManager._player.rig2D.DOKill();
-                _dashTween = _BehaviorManager.Get<BehaviorLibrary>().Dash(_stateManager._player).OnComplete(() =>
+                _dashTween = _dashAction.Dash(_stateManager._player).OnComplete(() =>
                 {
                     _stateManager.ChangeState(_stateManager._idleState);
                 });
