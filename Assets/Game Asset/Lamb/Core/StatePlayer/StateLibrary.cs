@@ -30,7 +30,10 @@ namespace StatePattern.Player
                     _stateManager.ChangeState(_stateManager._dashState);
                 }
             }
-            public void FixedExecute() { }
+            public void FixedExecute()
+            {
+
+            }
         }
         //---------------------------------------
         public class RunState : IState
