@@ -7,11 +7,13 @@ namespace StatePattern.Player
         public PlayerController _player { get; private set; }
         public StateAnimLib.IdleAnimState _idleState { get; private set; }
         public StateAnimLib.RunAnimState _runState { get; private set; }
+        public StateAnimLib.DashAnimState _dashState { get; private set; }
         private void Awake()
         {
             _player = GetComponent<PlayerController>();
             _idleState = new StateAnimLib.IdleAnimState(this);
             _runState = new StateAnimLib.RunAnimState(this);
+            _dashState = new StateAnimLib.DashAnimState(this);
         }
 
         private void Start()
