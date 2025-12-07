@@ -48,7 +48,6 @@ namespace StatePattern.Player
                 }
                 else
                 {
-
                     _stateAnimManager._player.animator.SetFloat("DirecX", _stateAnimManager._player.moveInput.x);
                     _stateAnimManager._player.animator.SetFloat("DirecY", _stateAnimManager._player.moveInput.y);
                 }
@@ -61,7 +60,7 @@ namespace StatePattern.Player
 
             public void Exit()
             {
-                Debug.Log("Exit Run State");
+
             }
         }
 
@@ -89,7 +88,6 @@ namespace StatePattern.Player
             }
             public void Exit()
             {
-                Debug.Log("Exit Dash State");
                 _stateAnimManager._player.animator.SetBool("Roll", false);
             }
         }

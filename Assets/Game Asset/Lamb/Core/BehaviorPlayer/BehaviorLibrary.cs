@@ -26,6 +26,7 @@ namespace Behavior.Player
             if (hit.collider != null)
             {
                 distance = hit.distance - 0.1f;
+                Debug.Log("Dash hit wall, new distance: " + distance);
             }
 
             Vector2 dashTarget = _player.rig2D.position + dashDirection * distance;
