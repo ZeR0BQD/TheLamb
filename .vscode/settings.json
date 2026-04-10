@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "TheLamb.sln"
+    "dotnet.defaultSolution": "TheLamb.sln",
+    "dotrush.roslyn.projectOrSolutionFiles": [
+        "d:\\Job\\TheLamb\\Assembly-CSharp.csproj"
+    ]
 }
