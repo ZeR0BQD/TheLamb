@@ -8,7 +8,7 @@ public class FlowLastDirecPlayer : StateMachineBehaviour
     SpriteRenderer spriteR;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _player = PlayerController.Instance;
+        _player = animator.GetComponent<PlayerController>();
         spriteR = _player.spriteRenderer;
         spriteR.flipX = _player.lastDirecMove.x < 0;
     }

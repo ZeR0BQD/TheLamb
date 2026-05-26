@@ -39,6 +39,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2014654464825991162
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -84,6 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 7021b796822459a419ee2fdabe0ac6c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -93,7 +95,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &8664314338503761270
 Animator:
@@ -168,9 +169,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c636351d6b5a8364f93657c6c21b0f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  <moveSpeed>k__BackingField: 0
-  <dashDistance>k__BackingField: 0
-  <dashDuration>k__BackingField: 0
+  <moveSpeed>k__BackingField: 5
+  <dashDistance>k__BackingField: 5
+  <dashDuration>k__BackingField: 0.35
   <wallLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
