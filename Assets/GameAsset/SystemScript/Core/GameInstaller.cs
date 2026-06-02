@@ -4,8 +4,6 @@ namespace Core.Installers
 {
     public class GameInstaller : MonoBehaviour
     {
-        [Header("Global Services")]
-        [SerializeField] private PlayerInputReader _globalInputReader;
 
         private void Start()
         {

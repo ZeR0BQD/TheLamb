@@ -27,6 +27,10 @@ trigger: always_on
 - Lớp Input chỉ chịu trách nhiệm nhận thao tác người dùng và phát ra các sự kiện (Event).
 - Các State sẽ lắng nghe (Subscribe) các sự kiện này để phản hồi (ví dụ: `MoveState` lắng nghe tín hiệu trục di chuyển từ Input).
 
+### D. Dữ liệu tĩnh (ScriptableObject)
+- Sử dụng kiến trúc Data-Driven bằng ScriptableObject để lưu trữ các chỉ số gốc.
+- Chỉ Đọc (Read-only), tuyệt đối Cấm Ghi (Write) vào ScriptableObject thông qua Code để tránh lỗi ghi đè file Asset khi chạy trên Unity Editor.
+
 ## 3. Quy chuẩn chung
 - Áp dụng triệt để các kỹ năng thực tiễn từ thư mục ECC Framework khi gặp tác vụ tương ứng (viết test, refactor, review code).
 - Tuyệt đối không dùng ký tự dải phân cách (như `// =========`) trong comment.

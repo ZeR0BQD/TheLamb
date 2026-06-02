@@ -1,3 +1,4 @@
+using Data.Player;
 using StatePattern.Player;
 using UnityEngine;
 
@@ -7,9 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(StateManager))]
 public class PlayerController : MonoBehaviour
 {
-    [field: SerializeField] public float moveSpeed { get; private set; }
-    [field: SerializeField] public float dashDistance { get; private set; }
-    [field: SerializeField] public float dashDuration { get; private set; }
+    [field: SerializeField] public PlayerDataSO playerData { get; private set; }
     public Rigidbody2D rig2D { get; private set; }
     [field: SerializeField] public LayerMask wallLayer { get; private set; }
     [field: SerializeField] public Vector2 moveInput { get; private set; }
@@ -27,7 +26,7 @@ public class PlayerController : MonoBehaviour
         {
             _inputReader.OnMoveEvent += HandleMove;
         }
-        stateManager.Initialize(inputReader);
+        stateManager.Initialize(_inputReader);
     }
 
     private void OnDestroy()
@@ -60,12 +59,5 @@ public class PlayerController : MonoBehaviour
         {
             lastDirecMove = new Vector2(moveInput.x, 0).normalized;
         }
-    }
-
-    private void Reset()
-    {
-        moveSpeed = 5f;
-        dashDistance = 5f;
-        dashDuration = 0.35f;
     }
 }
