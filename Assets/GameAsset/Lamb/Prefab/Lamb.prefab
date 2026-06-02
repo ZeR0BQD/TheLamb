@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4494847914586458943}
   - component: {fileID: 3017102547179987421}
   - component: {fileID: 4617018312575215466}
+  - component: {fileID: 8269155050583565714}
   m_Layer: 0
   m_Name: Lamb
   m_TagString: Player
@@ -188,3 +189,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2786be408f3ab264d9f4f117c2640e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatePattern.Player.StateAnimManager
+--- !u!114 &8269155050583565714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184322820255677766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca078173f59e09140a9763dca9cae3e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputReader

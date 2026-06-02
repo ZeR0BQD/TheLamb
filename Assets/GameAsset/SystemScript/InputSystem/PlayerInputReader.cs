@@ -15,22 +15,30 @@ public class PlayerInputReader : MonoBehaviour, IInputReader
     {
         _controls = new PlayerControlsInput();
 
-        // Giả định Action Map là "Player" và Action là "Move"
-        // Nếu tên khác, hãy cập nhật lại ở đây.
-        /* 
-        
+
+        //Đăng ký sự kiện di chuyển
+
+        _controls.Player.Move.performed += ctx =>
+                {
+                    MoveInput = ctx.ReadValue<Vector2>();
+                    OnMoveEvent?.Invoke(MoveInput);
+                };
+
+
+        // Hủy di chuyển
+
         _controls.Player.Move.canceled += ctx =>
         {
             MoveInput = Vector2.zero;
             OnMoveEvent?.Invoke(MoveInput);
         };
-        */
 
-        _controls.Player.Move.performed += ctx =>
+        // Đăng ký sự kiện Lướt (Dash)
+        _controls.Player.Dash.performed += ctx =>
         {
-            MoveInput = ctx.ReadValue<Vector2>();
-            OnMoveEvent?.Invoke(MoveInput);
+            OnDashEvent?.Invoke();
         };
+
     }
 
     private void OnEnable()

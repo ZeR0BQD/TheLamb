@@ -7,5 +7,6 @@ namespace StatePattern.Player
         void Execute();
         void FixedExecute();
         void Exit();
+        void OnDashSignal();
     }
 }

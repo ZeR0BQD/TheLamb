@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 lastDirecMove { get; private set; }
     public Animator animator { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
+    public StateManager stateManager { get; private set; }
 
     private IInputReader _inputReader;
 
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
         {
             _inputReader.OnMoveEvent += HandleMove;
         }
+        stateManager.Initialize(inputReader);
     }
 
     private void OnDestroy()
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        stateManager = GetComponent<StateManager>();
     }
 
     private void Start()

@@ -1,89 +1,58 @@
-using UnityEngine;
 using Behavior.Player;
 using DG.Tweening;
+using UnityEngine;
 
 namespace StatePattern.Player
 {
     public class StateLibrary
     {
-        public class IdleState : IState
+        public class IdleState : PlayerBaseState
         {
-            private StateManager _stateManager;
+            public IdleState(StateManager stateManager) : base(stateManager) { }
 
-            public IdleState(StateManager stateManager)
-            {
-                _stateManager = stateManager;
-            }
-
-            public void Enter() { }
-            public void Exit() { }
-
-            public void Execute()
+            public override void Execute()
             {
                 if (_stateManager._player.moveInput != Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._moveState);
                 }
-
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    _stateManager.ChangeState(_stateManager._dashState);
-                }
-            }
-            public void FixedExecute()
-            {
-
             }
         }
-        //---------------------------------------
-        public class RunState : IState
+
+        public class RunState : PlayerBaseState
         {
             private readonly IRunnable _runAction;
-            private StateManager _stateManager;
-            public RunState(IRunnable runAction, StateManager stateManager)
+
+            public RunState(IRunnable runAction, StateManager stateManager) : base(stateManager)
             {
                 _runAction = runAction;
-                _stateManager = stateManager;
             }
 
-            public void Enter() { }
-
-            public void Execute()
+            public override void Execute()
             {
                 if (_stateManager._player.moveInput == Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._idleState);
                 }
-
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    _stateManager.ChangeState(_stateManager._dashState);
-                }
             }
 
-            public void FixedExecute()
+            public override void FixedExecute()
             {
                 _runAction.Run(_stateManager._player);
             }
-
-            public void Exit()
-            {
-
-            }
         }
-        //---------------------------------------
-        public class DashState : IState
+
+        public class DashState : PlayerBaseState
         {
             private Tween _dashTween;
-            private StateManager _stateManager;
             private readonly IDashable _dashAction;
 
-            public DashState(IDashable dashAction, StateManager stateManager)
+            public DashState(IDashable dashAction, StateManager stateManager) : base(stateManager)
             {
-                _stateManager = stateManager;
                 _dashAction = dashAction;
             }
-            public void Enter()
+
+            public override void Enter()
             {
                 _stateManager._player.rig2D.DOKill();
                 _dashTween = _dashAction.Dash(_stateManager._player).OnComplete(() =>
@@ -91,19 +60,16 @@ namespace StatePattern.Player
                     _stateManager.ChangeState(_stateManager._idleState);
                 });
             }
-            public void Execute()
-            {
 
-            }
-            public void FixedExecute()
-            {
-
-            }
-            public void Exit()
+            public override void Exit()
             {
                 _dashTween?.Kill();
             }
+
+            public override void OnDashSignal()
+            {
+                // Đang lướt thì không cho lướt tiếp (Viết đè hàm của BaseState thành rỗng)
+            }
         }
-        //---------------------------------------
     }
 }

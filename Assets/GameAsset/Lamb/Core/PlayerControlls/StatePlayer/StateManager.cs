@@ -12,6 +12,30 @@ namespace StatePattern.Player
         public StateLibrary.RunState _moveState { get; private set; }
         public PlayerController _player { get; private set; }
 
+        private IInputReader _inputReader;
+
+        public void Initialize(IInputReader inputReader)
+        {
+            _inputReader = inputReader;
+            if (_inputReader != null)
+            {
+                _inputReader.OnDashEvent += HandleDashEvent;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_inputReader != null)
+            {
+                _inputReader.OnDashEvent -= HandleDashEvent;
+            }
+        }
+
+        private void HandleDashEvent()
+        {
+            _currentState?.OnDashSignal();
+        }
+
         private void Awake()
         {
             var playerActions = new BehaviorLibrary();

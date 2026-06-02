@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.Installers.GameInstaller
   _globalInputReader: {fileID: 8269155050583565714, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
-  _playerController: {fileID: 3017102547179987421, guid: 72d4149bf6d06ee44bc299ddedd9db2e, type: 3}
 --- !u!4 &253006082
 Transform:
   m_ObjectHideFlags: 0
