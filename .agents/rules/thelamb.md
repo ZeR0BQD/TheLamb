@@ -35,3 +35,4 @@ trigger: always_on
 - Áp dụng triệt để các kỹ năng thực tiễn từ thư mục ECC Framework khi gặp tác vụ tương ứng (viết test, refactor, review code).
 - Tuyệt đối không dùng ký tự dải phân cách (như `// =========`) trong comment.
 - Không sử dụng biểu tượng cảm xúc (emoji).
+- **Lưu giữ Ngữ cảnh (Context Preservation)**: Khi kết thúc một phiên làm việc (hoặc khi chốt xong một tiến độ), tự động tổng hợp và ghi chú lại: công việc đã làm, công việc cần làm tiếp, các bug đang tồn đọng, và các phần mã cần test. Điều này đảm bảo tính kế thừa hoàn hảo cho mọi phiên làm việc tiếp theo.

@@ -3,11 +3,11 @@ namespace Behavior.Player
 {
     public interface IRunnable
     {
-        void Run(PlayerController player);
+        void Run();
     }
 
     public interface IDashable
     {
-        Tween Dash(PlayerController player);
+        Tween Dash();
     }
 }

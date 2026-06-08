@@ -8,11 +8,11 @@ namespace StatePattern.Player
     {
         public class IdleState : PlayerBaseState
         {
-            public IdleState(StateManager stateManager) : base(stateManager) { }
+            public IdleState(StateManager stateManager, IInputReader inputReader) : base(stateManager, inputReader) { }
 
             public override void Execute()
             {
-                if (_stateManager._player.moveInput != Vector2.zero)
+                if (_inputReader.MoveInput != Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._moveState);
                 }
@@ -23,14 +23,14 @@ namespace StatePattern.Player
         {
             private readonly IRunnable _runAction;
 
-            public RunState(IRunnable runAction, StateManager stateManager) : base(stateManager)
+            public RunState(IRunnable runAction, StateManager stateManager, IInputReader inputReader) : base(stateManager, inputReader)
             {
                 _runAction = runAction;
             }
 
             public override void Execute()
             {
-                if (_stateManager._player.moveInput == Vector2.zero)
+                if (_inputReader.MoveInput == Vector2.zero)
                 {
                     _stateManager.ChangeState(_stateManager._idleState);
                 }
@@ -38,7 +38,7 @@ namespace StatePattern.Player
 
             public override void FixedExecute()
             {
-                _runAction.Run(_stateManager._player);
+                _runAction.Run();
             }
         }
 
@@ -47,15 +47,15 @@ namespace StatePattern.Player
             private Tween _dashTween;
             private readonly IDashable _dashAction;
 
-            public DashState(IDashable dashAction, StateManager stateManager) : base(stateManager)
+            public DashState(IDashable dashAction, StateManager stateManager, IInputReader inputReader) : base(stateManager, inputReader)
             {
                 _dashAction = dashAction;
             }
 
             public override void Enter()
             {
-                _stateManager._player.rig2D.DOKill();
-                _dashTween = _dashAction.Dash(_stateManager._player).OnComplete(() =>
+                _stateManager._physics.rig2D.DOKill();
+                _dashTween = _dashAction.Dash().OnComplete(() =>
                 {
                     _stateManager.ChangeState(_stateManager._idleState);
                 });
@@ -68,7 +68,7 @@ namespace StatePattern.Player
 
             public override void OnDashSignal()
             {
-                // Đang lướt thì không cho lướt tiếp (Viết đè hàm của BaseState thành rỗng)
+                // Đang lướt thì không cho lướt tiếp 
             }
         }
     }

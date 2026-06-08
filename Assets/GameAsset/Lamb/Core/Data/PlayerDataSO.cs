@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Data.Player
 {
-    [CreateAssetMenu(fileName = "NewPlayerData", menuName = "TheLamb/Data/Player Data")]
+    [CreateAssetMenu(fileName = "NewPlayerData", menuName = "Scriptable Objects/TheLamb/Data/Player Data")]
     public class PlayerDataSO : ScriptableObject
     {
         [Header("Movement")]

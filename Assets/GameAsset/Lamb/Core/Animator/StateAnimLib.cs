@@ -12,23 +12,12 @@ namespace StatePattern.Player
             }
             public void Enter()
             {
-                _stateAnimManager._player.animator.SetFloat("Speed", _stateAnimManager._player.moveInput.sqrMagnitude);
+                _stateAnimManager._animator.SetFloat("Speed", 0f);
             }
-            public void Execute()
-            {
-                if (_stateAnimManager._player.moveInput != Vector2.zero)
-                {
-                    _stateAnimManager.ChangeState(_stateAnimManager._runState);
-                }
-
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    _stateAnimManager.ChangeState(_stateAnimManager._dashState);
-                }
-            }
+            public void Execute() { }
             public void Exit() { }
         }
-        //---------------------------------------
+
         public class RunAnimState : IAnimState
         {
             StateAnimManager _stateAnimManager;
@@ -36,32 +25,18 @@ namespace StatePattern.Player
             {
                 _stateAnimManager = stateAnimManager;
             }
-            public void Enter()
-            {
-                _stateAnimManager._player.animator.SetFloat("Speed", _stateAnimManager._player.moveInput.sqrMagnitude);
-            }
+            public void Enter() { }
             public void Execute()
             {
-                if (_stateAnimManager._player.moveInput == Vector2.zero)
+                _stateAnimManager._animator.SetFloat("Speed", _stateAnimManager._inputReader.MoveInput.sqrMagnitude);
+                if (_stateAnimManager._inputReader.MoveInput != Vector2.zero)
                 {
-                    _stateAnimManager.ChangeState(_stateAnimManager._idleState);
-                }
-                else
-                {
-                    _stateAnimManager._player.animator.SetFloat("DirecX", _stateAnimManager._player.moveInput.x);
-                    _stateAnimManager._player.animator.SetFloat("DirecY", _stateAnimManager._player.moveInput.y);
-                }
-
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    _stateAnimManager.ChangeState(_stateAnimManager._dashState);
+                    _stateAnimManager._animator.SetFloat("DirecX", _stateAnimManager._inputReader.MoveInput.x);
+                    _stateAnimManager._animator.SetFloat("DirecY", _stateAnimManager._inputReader.MoveInput.y);
                 }
             }
 
-            public void Exit()
-            {
-
-            }
+            public void Exit() { }
         }
 
         public class DashAnimState : IAnimState
@@ -73,23 +48,14 @@ namespace StatePattern.Player
             }
             public void Enter()
             {
-                _stateAnimManager._player.animator.SetBool("Roll", true);
+                _stateAnimManager._animator.SetBool("Roll", true);
             }
-            public void Execute()
-            {
-                if (_stateAnimManager._player.moveInput == Vector2.zero)
-                {
-                    _stateAnimManager.ChangeState(_stateAnimManager._idleState);
-                }
-                else
-                {
-                    _stateAnimManager.ChangeState(_stateAnimManager._runState);
-                }
-            }
+            public void Execute() { }
             public void Exit()
             {
-                _stateAnimManager._player.animator.SetBool("Roll", false);
+                _stateAnimManager._animator.SetBool("Roll", false);
             }
         }
     }
 }
+

@@ -6,4 +6,4 @@ namespace StatePattern.Player
         void Execute();
         void Exit();
     }
-}
+}

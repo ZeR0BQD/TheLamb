@@ -6,10 +6,12 @@ namespace StatePattern.Player
     public abstract class PlayerBaseState : IState
     {
         protected StateManager _stateManager;
+        protected IInputReader _inputReader;
 
-        public PlayerBaseState(StateManager stateManager)
+        public PlayerBaseState(StateManager stateManager, IInputReader inputReader)
         {
             _stateManager = stateManager;
+            _inputReader = inputReader;
         }
 
         public virtual void Enter() { }

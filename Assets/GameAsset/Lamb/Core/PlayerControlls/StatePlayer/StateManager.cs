@@ -1,26 +1,36 @@
-using UnityEngine;
 using Behavior.Player;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace StatePattern.Player
 {
     public class StateManager : MonoBehaviour
     {
         private IState _currentState;
+        public event System.Action<IState> OnStateChanged;
         public StateLibrary.IdleState _idleState { get; private set; }
         public StateLibrary.DashState _dashState { get; private set; }
         public StateLibrary.RunState _moveState { get; private set; }
-        public PlayerController _player { get; private set; }
+        public IPlayerPhysics _physics { get; private set; }
 
+        private BehaviorLibrary _playerActions;
         private IInputReader _inputReader;
 
-        public void Initialize(IInputReader inputReader)
+        public void Initialize(IInputReader inputReader, IPlayerPhysics physics)
         {
+            _physics = physics;
             _inputReader = inputReader;
+
             if (_inputReader != null)
             {
                 _inputReader.OnDashEvent += HandleDashEvent;
             }
+
+            _playerActions = new BehaviorLibrary(inputReader, _physics);
+            _idleState = new StateLibrary.IdleState(this, _inputReader);
+            _moveState = new StateLibrary.RunState(_playerActions, this, _inputReader);
+            _dashState = new StateLibrary.DashState(_playerActions, this, _inputReader);
+            ChangeState(_idleState);
         }
 
         private void OnDestroy()
@@ -36,20 +46,6 @@ namespace StatePattern.Player
             _currentState?.OnDashSignal();
         }
 
-        private void Awake()
-        {
-            var playerActions = new BehaviorLibrary();
-
-            _player = GetComponent<PlayerController>();
-            _idleState = new StateLibrary.IdleState(this);
-            _moveState = new StateLibrary.RunState(playerActions, this);
-            _dashState = new StateLibrary.DashState(playerActions, this);
-        }
-
-        private void Start()
-        {
-            ChangeState(_idleState);
-        }
 
         private void Update()
         {
@@ -66,6 +62,7 @@ namespace StatePattern.Player
 
             _currentState?.Exit();
             _currentState = newState;
+            OnStateChanged?.Invoke(_currentState);
             _currentState?.Enter();
         }
     }

@@ -6,45 +6,43 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(StateAnimManager))]
 [RequireComponent(typeof(StateManager))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayerPhysics
 {
     [field: SerializeField] public PlayerDataSO playerData { get; private set; }
     public Rigidbody2D rig2D { get; private set; }
     [field: SerializeField] public LayerMask wallLayer { get; private set; }
-    [field: SerializeField] public Vector2 moveInput { get; private set; }
     public Vector2 lastDirecMove { get; private set; }
+
     public Animator animator { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
     public StateManager stateManager { get; private set; }
+    public StateAnimManager stateAnimManager { get; private set; }
 
     private IInputReader _inputReader;
 
     public void Initialize(IInputReader inputReader)
     {
         _inputReader = inputReader;
-        if (_inputReader != null)
-        {
-            _inputReader.OnMoveEvent += HandleMove;
-        }
-        stateManager.Initialize(_inputReader);
+
+        stateManager.Initialize(_inputReader, (IPlayerPhysics)this);
+        stateAnimManager.Initialize(_inputReader, (IPlayerPhysics)this, stateManager);
     }
 
     private void OnDestroy()
     {
         if (_inputReader != null)
         {
-            _inputReader.OnMoveEvent -= HandleMove;
+
         }
     }
 
     private void Awake()
     {
         rig2D = GetComponent<Rigidbody2D>();
-        rig2D.interpolation = RigidbodyInterpolation2D.Interpolate;
-
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         stateManager = GetComponent<StateManager>();
+        stateAnimManager = GetComponent<StateAnimManager>();
     }
 
     private void Start()
@@ -52,12 +50,12 @@ public class PlayerController : MonoBehaviour
         lastDirecMove = Vector2.right;
     }
 
-    private void HandleMove(Vector2 input)
+    private void Update()
     {
-        moveInput = input;
-        if (moveInput.x != 0)
+        if (_inputReader != null && _inputReader.MoveInput != Vector2.zero)
         {
-            lastDirecMove = new Vector2(moveInput.x, 0).normalized;
+            lastDirecMove = _inputReader.MoveInput.normalized;
         }
     }
+
 }

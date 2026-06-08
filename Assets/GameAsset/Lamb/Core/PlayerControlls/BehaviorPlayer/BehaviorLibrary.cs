@@ -4,32 +4,40 @@ namespace Behavior.Player
 {
     public class BehaviorLibrary : IRunnable, IDashable
     {
-        public void Run(PlayerController _player)
+        private readonly IInputReader _inputReader;
+        private readonly IPlayerPhysics _physics;
+        public BehaviorLibrary(IInputReader inputReader, IPlayerPhysics physics)
         {
-            if (_player == null || _player.playerData == null)
+            _inputReader = inputReader;
+            _physics = physics;
+        }
+
+        public void Run()
+        {
+            if (_physics == null || _physics.playerData == null)
             {
-                Debug.LogError("[BehaviorLibrary] PlayerController hoặc trường Player Data trong PlayerController bị NULL! Hãy kiểm tra lại Inspector");
+                Debug.LogError("[BehaviorLibrary] IPlayerPhysics hoac PlayerData bi NULL!");
                 return;
             }
 
-            Vector2 moveDirection = _player.moveInput.normalized;
+            Vector2 moveDirection = _inputReader.MoveInput.normalized;
 
-            _player.rig2D.MovePosition(_player.rig2D.position + moveDirection * _player.playerData.moveSpeed * Time.fixedDeltaTime);
+            _physics.rig2D.MovePosition(_physics.rig2D.position + moveDirection * _physics.playerData.moveSpeed * Time.fixedDeltaTime);
         }
 
-        public Tween Dash(PlayerController _player)
+        public Tween Dash()
         {
-            if (_player == null || _player.playerData == null)
+            if (_physics == null || _physics.playerData == null)
             {
-                Debug.LogError("[BehaviorLibrary] Lỗi chí mạng: PlayerController hoặc trường Player Data trong PlayerController bị NULL! Không thể thực hiện Dash.");
+                Debug.LogError("[BehaviorLibrary] IPlayerPhysics hoac PlayerData bi NULL! Khong the thuc hien Dash.");
                 return null;
             }
 
-            Vector2 dashDirection = _player.moveInput == Vector2.zero ? _player.lastDirecMove : _player.moveInput.normalized;
+            Vector2 dashDirection = _inputReader.MoveInput == Vector2.zero ? _physics.lastDirecMove : _inputReader.MoveInput.normalized;
 
-            float distance = _player.playerData.dashDistance;
+            float distance = _physics.playerData.dashDistance;
 
-            RaycastHit2D hit = Physics2D.Raycast(_player.rig2D.position + dashDirection * 0.1f, dashDirection, distance, _player.wallLayer);
+            RaycastHit2D hit = Physics2D.Raycast(_physics.rig2D.position + dashDirection * 0.1f, dashDirection, distance, _physics.wallLayer);
 
             if (hit.collider != null)
             {
@@ -37,8 +45,8 @@ namespace Behavior.Player
                 Debug.Log("Dash hit wall, new distance: " + distance);
             }
 
-            Vector2 dashTarget = _player.rig2D.position + dashDirection * distance;
-            return _player.rig2D.DOMove(dashTarget, _player.playerData.dashDuration * (distance / _player.playerData.dashDistance)).SetEase(Ease.OutQuad);
+            Vector2 dashTarget = _physics.rig2D.position + dashDirection * distance;
+            return _physics.rig2D.DOMove(dashTarget, _physics.playerData.dashDuration * (distance / _physics.playerData.dashDistance)).SetEase(Ease.OutQuad);
         }
     }
-}
+}
