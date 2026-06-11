@@ -1,38 +1,47 @@
 using UnityEngine;
-namespace StatePattern.Player
+
+namespace StatePattern.Player.Anim
 {
     public class StateAnimLib
     {
         public class IdleAnimState : IAnimState
         {
-            StateAnimManager _stateAnimManager;
+            private readonly StateAnimManager _stateAnimManager;
+
             public IdleAnimState(StateAnimManager stateAnimManager)
             {
                 _stateAnimManager = stateAnimManager;
             }
+
             public void Enter()
             {
-                _stateAnimManager._animator.SetFloat("Speed", 0f);
+                _stateAnimManager.Animator.SetFloat("Speed", 0f);
             }
+
             public void Execute() { }
             public void Exit() { }
         }
 
         public class RunAnimState : IAnimState
         {
-            StateAnimManager _stateAnimManager;
+            private readonly StateAnimManager _stateAnimManager;
+
             public RunAnimState(StateAnimManager stateAnimManager)
             {
                 _stateAnimManager = stateAnimManager;
             }
+
             public void Enter() { }
+
             public void Execute()
             {
-                _stateAnimManager._animator.SetFloat("Speed", _stateAnimManager._inputReader.MoveInput.sqrMagnitude);
-                if (_stateAnimManager._inputReader.MoveInput != Vector2.zero)
+                Vector2 moveInput = _stateAnimManager.InputReader.MoveInput;
+                _stateAnimManager.Animator.SetFloat("Speed", moveInput.sqrMagnitude);
+
+                if (moveInput != Vector2.zero)
                 {
-                    _stateAnimManager._animator.SetFloat("DirecX", _stateAnimManager._inputReader.MoveInput.x);
-                    _stateAnimManager._animator.SetFloat("DirecY", _stateAnimManager._inputReader.MoveInput.y);
+                    _stateAnimManager.Animator.SetFloat("DirecX", moveInput.x);
+                    _stateAnimManager.Animator.SetFloat("DirecY", moveInput.y);
                 }
             }
 
@@ -41,21 +50,24 @@ namespace StatePattern.Player
 
         public class DashAnimState : IAnimState
         {
-            StateAnimManager _stateAnimManager;
+            private readonly StateAnimManager _stateAnimManager;
+
             public DashAnimState(StateAnimManager stateAnimManager)
             {
                 _stateAnimManager = stateAnimManager;
             }
+
             public void Enter()
             {
-                _stateAnimManager._animator.SetBool("Roll", true);
+                _stateAnimManager.Animator.SetBool("Roll", true);
             }
+
             public void Execute() { }
+
             public void Exit()
             {
-                _stateAnimManager._animator.SetBool("Roll", false);
+                _stateAnimManager.Animator.SetBool("Roll", false);
             }
         }
     }
 }
-

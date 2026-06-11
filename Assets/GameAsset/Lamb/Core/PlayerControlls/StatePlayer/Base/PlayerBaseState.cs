@@ -1,17 +1,17 @@
-using StatePattern;
-using UnityEngine;
-
 namespace StatePattern.Player
 {
     public abstract class PlayerBaseState : IState
     {
-        protected StateManager _stateManager;
-        protected IInputReader _inputReader;
+        protected readonly PlayerStateContext _ctx;
 
-        public PlayerBaseState(StateManager stateManager, IInputReader inputReader)
+        protected StateManager _stateManager => _ctx.StateManager;
+        protected IInputReader _inputReader  => _ctx.InputReader;
+
+        public abstract IDStatePlayer StateID { get; }
+
+        public PlayerBaseState(PlayerStateContext ctx)
         {
-            _stateManager = stateManager;
-            _inputReader = inputReader;
+            _ctx = ctx;
         }
 
         public virtual void Enter() { }
@@ -22,10 +22,7 @@ namespace StatePattern.Player
         // Logic chuyển sang trạng thái Lướt
         public virtual void OnDashSignal()
         {
-            _stateManager.ChangeState(_stateManager._dashState);
+            _stateManager.ChangeState(IDStatePlayer.Dash);
         }
     }
-
-
 }
-

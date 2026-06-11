@@ -1,5 +1,6 @@
 using Data.Player;
 using StatePattern.Player;
+using StatePattern.Player.Anim;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour, IPlayerPhysics
         _inputReader = inputReader;
 
         stateManager.Initialize(_inputReader, (IPlayerPhysics)this);
-        stateAnimManager.Initialize(_inputReader, (IPlayerPhysics)this, stateManager);
+        stateAnimManager.Initialize(_inputReader, stateManager);
     }
 
     private void OnDestroy()

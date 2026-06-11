@@ -1,59 +1,33 @@
-using Behavior.Player;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StatePattern.Player
 {
-    public class StateManager : MonoBehaviour
+    public partial class StateManager : MonoBehaviour
     {
         private IState _currentState;
         public event System.Action<IState> OnStateChanged;
-        public StateLibrary.IdleState _idleState { get; private set; }
-        public StateLibrary.DashState _dashState { get; private set; }
-        public StateLibrary.RunState _moveState { get; private set; }
+
         public IPlayerPhysics _physics { get; private set; }
 
-        private BehaviorLibrary _playerActions;
+        private readonly Dictionary<IDStatePlayer, IState> _states = new Dictionary<IDStatePlayer, IState>();
         private IInputReader _inputReader;
 
-        public void Initialize(IInputReader inputReader, IPlayerPhysics physics)
+        private void RegisterState(IState state)
         {
-            _physics = physics;
-            _inputReader = inputReader;
+            _states[state.StateID] = state;
+        }
 
-            if (_inputReader != null)
+        public void ChangeState(IDStatePlayer id)
+        {
+            if (_states.TryGetValue(id, out IState state))
             {
-                _inputReader.OnDashEvent += HandleDashEvent;
+                ChangeState(state);
             }
-
-            _playerActions = new BehaviorLibrary(inputReader, _physics);
-            _idleState = new StateLibrary.IdleState(this, _inputReader);
-            _moveState = new StateLibrary.RunState(_playerActions, this, _inputReader);
-            _dashState = new StateLibrary.DashState(_playerActions, this, _inputReader);
-            ChangeState(_idleState);
-        }
-
-        private void OnDestroy()
-        {
-            if (_inputReader != null)
+            else
             {
-                _inputReader.OnDashEvent -= HandleDashEvent;
+                Debug.LogWarning($"[StateManager] Khong tim thay state voi ID: {id}");
             }
-        }
-
-        private void HandleDashEvent()
-        {
-            _currentState?.OnDashSignal();
-        }
-
-
-        private void Update()
-        {
-            _currentState?.Execute();
-        }
-        private void FixedUpdate()
-        {
-            _currentState?.FixedExecute();
         }
 
         public void ChangeState(IState newState)
@@ -64,6 +38,21 @@ namespace StatePattern.Player
             _currentState = newState;
             OnStateChanged?.Invoke(_currentState);
             _currentState?.Enter();
+        }
+
+        private void HandleDashEvent()
+        {
+            _currentState?.OnDashSignal();
+        }
+
+        private void Update()
+        {
+            _currentState?.Execute();
+        }
+
+        private void FixedUpdate()
+        {
+            _currentState?.FixedExecute();
         }
     }
 }

@@ -1,11 +1,13 @@
 using DG.Tweening;
 using UnityEngine;
+
 namespace Behavior.Player
 {
     public class BehaviorLibrary : IRunnable, IDashable
     {
         private readonly IInputReader _inputReader;
         private readonly IPlayerPhysics _physics;
+
         public BehaviorLibrary(IInputReader inputReader, IPlayerPhysics physics)
         {
             _inputReader = inputReader;
@@ -21,7 +23,6 @@ namespace Behavior.Player
             }
 
             Vector2 moveDirection = _inputReader.MoveInput.normalized;
-
             _physics.rig2D.MovePosition(_physics.rig2D.position + moveDirection * _physics.playerData.moveSpeed * Time.fixedDeltaTime);
         }
 
@@ -33,11 +34,18 @@ namespace Behavior.Player
                 return null;
             }
 
-            Vector2 dashDirection = _inputReader.MoveInput == Vector2.zero ? _physics.lastDirecMove : _inputReader.MoveInput.normalized;
+            Vector2 dashDirection = _inputReader.MoveInput == Vector2.zero
+                ? _physics.lastDirecMove
+                : _inputReader.MoveInput.normalized;
 
             float distance = _physics.playerData.dashDistance;
 
-            RaycastHit2D hit = Physics2D.Raycast(_physics.rig2D.position + dashDirection * 0.1f, dashDirection, distance, _physics.wallLayer);
+            RaycastHit2D hit = Physics2D.Raycast(
+                _physics.rig2D.position + dashDirection * 0.1f,
+                dashDirection,
+                distance,
+                _physics.wallLayer
+            );
 
             if (hit.collider != null)
             {
@@ -46,7 +54,9 @@ namespace Behavior.Player
             }
 
             Vector2 dashTarget = _physics.rig2D.position + dashDirection * distance;
-            return _physics.rig2D.DOMove(dashTarget, _physics.playerData.dashDuration * (distance / _physics.playerData.dashDistance)).SetEase(Ease.OutQuad);
+            return _physics.rig2D
+                .DOMove(dashTarget, _physics.playerData.dashDuration * (distance / _physics.playerData.dashDistance))
+                .SetEase(Ease.OutQuad);
         }
     }
-}
+}

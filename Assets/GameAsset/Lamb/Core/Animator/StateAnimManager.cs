@@ -1,30 +1,34 @@
+using System.Collections.Generic;
+using StatePattern.Player;
 using UnityEngine;
-namespace StatePattern.Player
+
+namespace StatePattern.Player.Anim
 {
+    [RequireComponent(typeof(Animator))]
     public class StateAnimManager : MonoBehaviour
     {
         private IAnimState _currentState;
-        public IPlayerPhysics _physics { get; private set; }
-        public Animator _animator { get; private set; }
-        public IInputReader _inputReader { get; private set; }
-        public StateAnimLib.IdleAnimState _idleState { get; private set; }
-        public StateAnimLib.RunAnimState _runState { get; private set; }
-        public StateAnimLib.DashAnimState _dashState { get; private set; }
-        
+
+        public Animator Animator { get; private set; }
+        public IInputReader InputReader { get; private set; }
+
+        private IAnimState _idleState;
+        private IAnimState _runState;
+        private IAnimState _dashState;
+
         private StateManager _stateManager;
+        private Dictionary<IDStatePlayer, IAnimState> _stateMapping;
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
         }
 
-        public void Initialize(IInputReader inputReader, IPlayerPhysics physics, StateManager stateManager)
+        public void Initialize(IInputReader inputReader, StateManager stateManager)
         {
-            _inputReader = inputReader;
-            _physics = physics;
+            InputReader = inputReader;
             _stateManager = stateManager;
 
-            // Đăng ký lắng nghe sự kiện chuyển state từ Logic
             if (_stateManager != null)
             {
                 _stateManager.OnStateChanged += HandleLogicStateChanged;
@@ -33,6 +37,13 @@ namespace StatePattern.Player
             _idleState = new StateAnimLib.IdleAnimState(this);
             _runState = new StateAnimLib.RunAnimState(this);
             _dashState = new StateAnimLib.DashAnimState(this);
+
+            _stateMapping = new Dictionary<IDStatePlayer, IAnimState>
+            {
+                { IDStatePlayer.Idle, _idleState },
+                { IDStatePlayer.Run,  _runState  },
+                { IDStatePlayer.Dash, _dashState }
+            };
 
             ChangeState(_idleState);
         }
@@ -47,9 +58,14 @@ namespace StatePattern.Player
 
         private void HandleLogicStateChanged(IState logicState)
         {
-            if (logicState is StateLibrary.IdleState) ChangeState(_idleState);
-            else if (logicState is StateLibrary.RunState) ChangeState(_runState);
-            else if (logicState is StateLibrary.DashState) ChangeState(_dashState);
+            if (_stateMapping.TryGetValue(logicState.StateID, out IAnimState animState))
+            {
+                ChangeState(animState);
+            }
+            else
+            {
+                Debug.LogWarning($"[StateAnimManager] Chua co Anim State tuong ung cho logic state: {logicState.StateID}");
+            }
         }
 
         private void Update()
@@ -67,5 +83,3 @@ namespace StatePattern.Player
         }
     }
 }
-
-

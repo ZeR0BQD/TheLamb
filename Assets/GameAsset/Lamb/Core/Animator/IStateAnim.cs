@@ -1,4 +1,4 @@
-namespace StatePattern.Player
+namespace StatePattern.Player.Anim
 {
     public interface IAnimState
     {
