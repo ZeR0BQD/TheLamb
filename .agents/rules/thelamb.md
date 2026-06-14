@@ -31,6 +31,23 @@ trigger: always_on
 - Sử dụng kiến trúc Data-Driven bằng ScriptableObject để lưu trữ các chỉ số gốc.
 - Chỉ Đọc (Read-only), tuyệt đối Cấm Ghi (Write) vào ScriptableObject thông qua Code để tránh lỗi ghi đè file Asset khi chạy trên Unity Editor.
 
+### E. Nguyên tắc Trách nhiệm Đơn (Single Responsibility Principle - SRP)
+- Một lớp nghiệp vụ (Player, Enemy, Boss) chỉ nên biết và phụ thuộc vào những thứ nó trực tiếp sử dụng để thực hiện đúng trách nhiệm của mình.
+- **Cấm** để `PlayerController` (hay bất kỳ lớp nghiệp vụ nào) giữ tham chiếu đến các hệ thống không liên quan đến logic của nó (ví dụ: `CameraFollow`, `UIManager`, v.v.) chỉ để làm cầu nối gọi một method khởi tạo.
+- **Tầng Installer** (`GameInstaller`) là nơi duy nhất chịu trách nhiệm "nối dây" (wire) các dependency giữa các hệ thống với nhau. Nếu hệ thống A cần biết về B để khởi tạo, `Installer` là nơi gọi `B.SetTarget(A.transform)`, không phải bản thân A.
+- **Ví dụ đúng**:
+  ```csharp
+  // GameInstaller.cs - noi duy nhat biet ve ca Player lan Camera
+  activePlayer.Initialize(activeInput);
+  cameraFollow.SetTarget(activePlayer.transform);
+  ```
+- **Ví dụ sai**:
+  ```csharp
+  // PlayerController.cs - Player khong nen biet ve Camera
+  public CameraFollow cameraFollow { get; private set; }
+  public void Initialize(...) { cameraFollow.SetTarget(transform); }
+  ```
+
 ## 3. Quy chuẩn chung
 - Áp dụng triệt để các kỹ năng thực tiễn từ thư mục ECC Framework khi gặp tác vụ tương ứng (viết test, refactor, review code).
 - Tuyệt đối không dùng ký tự dải phân cách (như `// =========`) trong comment.

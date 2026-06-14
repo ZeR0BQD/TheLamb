@@ -10,7 +10,7 @@ namespace StatePattern.Player
 
         public void Initialize(IInputReader inputReader, IPlayerPhysics physics)
         {
-            _physics     = physics;
+            _physics = physics;
             _inputReader = inputReader;
 
             if (_inputReader != null)
@@ -26,13 +26,13 @@ namespace StatePattern.Player
             ChangeState(IDStatePlayer.Idle);
         }
 
-        private void OnDestroy()
+
+
+        private void RegisterState(IState state)
         {
-            if (_inputReader != null)
-            {
-                _inputReader.OnDashEvent -= HandleDashEvent;
-            }
+            _states[state.StateID] = state;
         }
+
 
         // Them State moi: chi can them 1 dong RegisterState() o day
         private void InitializeStates(PlayerStateContext ctx)
@@ -40,6 +40,15 @@ namespace StatePattern.Player
             RegisterState(new IdleState(ctx));
             RegisterState(new RunState(ctx));
             RegisterState(new DashState(ctx));
+        }
+
+
+        private void OnDestroy()
+        {
+            if (_inputReader != null)
+            {
+                _inputReader.OnDashEvent -= HandleDashEvent;
+            }
         }
     }
 }

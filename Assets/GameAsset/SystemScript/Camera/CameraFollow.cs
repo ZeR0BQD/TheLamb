@@ -1,33 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-namespace Cainos.PixelArtTopDown_Basic
+public class CameraFollow : MonoBehaviour
 {
-    //let camera follow target
-    public class CameraFollow : MonoBehaviour
+    [SerializeField] private float lerpSpeed = 1.0f;
+    private Transform _target;
+    private Vector3 _cachePosition;
+
+    [Tooltip("Khoảng cách từ camera đến target theo trục Z")]
+    [SerializeField] private float _offsetZ;
+
+    public void Initialize(Transform target)
     {
-        Transform target;
-        public float lerpSpeed = 1.0f;
-        private Vector3 offset;
-        private Vector3 targetPos;
-        private void Awake()
-        {
-            target = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        }
-        private void Start()
-        {
-            if (target == null) return;
-            transform.position = new Vector3(target.transform.position.x, target.transform.position.y, target.transform.position.z - 10);
+        _target = target;
+    }
 
-            offset = transform.position - target.position;
-        }
-        private void Update()
-        {
-            if (target == null) return;
+    private void LateUpdate()
+    {
+        FollowTarget();
+    }
 
-            targetPos = target.position + offset;
-            transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
-        }
+    private void FollowTarget()
+    {
+        if (_target == null) return;
+
+        _cachePosition = _target.position;
+        _cachePosition.z -= _offsetZ;
+
+        transform.position = Vector3.Lerp(transform.position, _cachePosition, lerpSpeed * Time.deltaTime);
     }
 }
+

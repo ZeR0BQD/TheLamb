@@ -13,11 +13,6 @@ namespace StatePattern.Player
         private readonly Dictionary<IDStatePlayer, IState> _states = new Dictionary<IDStatePlayer, IState>();
         private IInputReader _inputReader;
 
-        private void RegisterState(IState state)
-        {
-            _states[state.StateID] = state;
-        }
-
         public void ChangeState(IDStatePlayer id)
         {
             if (_states.TryGetValue(id, out IState state))

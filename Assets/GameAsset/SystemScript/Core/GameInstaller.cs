@@ -7,19 +7,34 @@ namespace Core.Installers
 
         private void Start()
         {
-            // Tự động tìm con Player và Input đang sống trên màn hình (Bỏ qua Prefab)
-            PlayerInputReader activeInput = Object.FindFirstObjectByType<PlayerInputReader>();
-            PlayerController activePlayer = Object.FindFirstObjectByType<PlayerController>();
+            bool allValid = true;
 
-            if (activePlayer != null && activeInput != null)
+            PlayerInputReader activeInput = FindRequired<PlayerInputReader>(ref allValid);
+            PlayerController activePlayer = FindRequired<PlayerController>(ref allValid);
+            CameraFollow cameraFollow = FindRequired<CameraFollow>(ref allValid);
+
+            if (allValid)
             {
                 activePlayer.Initialize(activeInput);
-                Debug.Log("GameInstaller: Tự động tìm thấy Player và tiêm Input thành công!");
+                cameraFollow.Initialize(activePlayer.transform);
             }
             else
             {
-                Debug.LogError("GameInstaller: Không tìm thấy Player trên bản đồ hoặc thiếu InputReader!");
+                Debug.LogError("[GameInstaller] Khoi tao that bai");
             }
+        }
+
+        private T FindRequired<T>(ref bool allValid) where T : Object
+        {
+            var found = FindFirstObjectByType<T>();
+            if (found == null)
+            {
+                Debug.LogError($"[GameInstaller] Khong tim thay {typeof(T).Name} trong scene");
+
+
+                allValid = false;
+            }
+            return found;
         }
     }
 }
