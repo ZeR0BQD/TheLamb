@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd5e2f691e2dcef458014bdd1dadc51a, type: 3}
-  m_Name: Grass
+  m_Name: DefautGound
   m_EditorClassIdentifier: Assembly-CSharp::Map.MakeTypeGround
-  groundName: Grass
+  groundName: DefautGound
   speedMultiplier: 1
   damagePerSecond: 0
   canDash: 1
