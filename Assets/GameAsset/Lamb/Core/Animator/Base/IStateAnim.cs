@@ -1,12 +1,10 @@
-
-namespace StatePattern.Player
+namespace StatePattern.Player.Anim
 {
-    public interface IState
+    public interface IAnimState
     {
         IDStatePlayer StateID { get; }
         void Enter();
         void Execute();
-        void FixedExecute();
         void Exit();
         void OnStateChangeRequest(IDStatePlayer id);
     }

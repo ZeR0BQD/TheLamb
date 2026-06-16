@@ -26,6 +26,8 @@ namespace Behavior.Player
             _physics.rig2D.MovePosition(_physics.rig2D.position + moveDirection * _physics.playerData.moveSpeed * Time.fixedDeltaTime);
         }
 
+        public event System.Action OnDashComplete;
+
         public Tween Dash()
         {
             if (_physics == null || _physics.playerData == null)
@@ -56,7 +58,8 @@ namespace Behavior.Player
             Vector2 dashTarget = _physics.rig2D.position + dashDirection * distance;
             return _physics.rig2D
                 .DOMove(dashTarget, _physics.playerData.dashDuration * (distance / _physics.playerData.dashDistance))
-                .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() => OnDashComplete?.Invoke());
         }
     }
 }

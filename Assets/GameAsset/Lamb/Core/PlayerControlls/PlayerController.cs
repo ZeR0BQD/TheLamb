@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour, IPlayerPhysics
     public StateManager stateManager { get; private set; }
     public StateAnimManager stateAnimManager { get; private set; }
 
+
     private IInputReader _inputReader;
 
     public void Initialize(IInputReader inputReader)
@@ -26,15 +27,7 @@ public class PlayerController : MonoBehaviour, IPlayerPhysics
         _inputReader = inputReader;
 
         stateManager.Initialize(_inputReader, (IPlayerPhysics)this);
-        stateAnimManager.Initialize(_inputReader, stateManager);
-    }
-
-    private void OnDestroy()
-    {
-        if (_inputReader != null)
-        {
-
-        }
+        stateAnimManager.Initialize(_inputReader, stateManager.DashAction);
     }
 
     private void Awake()

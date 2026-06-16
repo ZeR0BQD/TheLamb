@@ -19,20 +19,30 @@ namespace StatePattern.Player.States
         public override void Enter()
         {
             _stateManager._physics.rig2D.DOKill();
-            _dashTween = _dashAction.Dash().OnComplete(() =>
-            {
-                _stateManager.ChangeState(IDStatePlayer.Idle);
-            });
+            
+            _dashAction.OnDashComplete += OnDashFinished;
+            _dashTween = _dashAction.Dash();
+        }
+
+        private void OnDashFinished()
+        {
+            _stateManager.ChangeState(IDStatePlayer.Idle);
         }
 
         public override void Exit()
         {
+            _dashAction.OnDashComplete -= OnDashFinished;
             _dashTween?.Kill();
         }
 
-        public override void OnDashSignal()
+        public override void OnStateChangeRequest(IDStatePlayer id)
         {
             // Đang lướt thì không cho lướt tiếp
+
+
+            if (id == IDStatePlayer.Dash) return;
+
+            base.OnStateChangeRequest(id);
         }
     }
 }

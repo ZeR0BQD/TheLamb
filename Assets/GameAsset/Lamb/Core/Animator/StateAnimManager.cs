@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Behavior.Player;
 using StatePattern.Player;
 using UnityEngine;
 
@@ -7,70 +8,82 @@ namespace StatePattern.Player.Anim
     [RequireComponent(typeof(Animator))]
     public class StateAnimManager : MonoBehaviour
     {
+        private readonly List<System.Action> _cleanups = new();
         private IAnimState _currentState;
 
         public Animator Animator { get; private set; }
-        public IInputReader InputReader { get; private set; }
+        public IInputReader _inputReader { get; private set; }
 
-        private IAnimState _idleState;
-        private IAnimState _runState;
-        private IAnimState _dashState;
-
-        private StateManager _stateManager;
-        private Dictionary<IDStatePlayer, IAnimState> _stateMapping;
+        private Dictionary<IDStatePlayer, IAnimState> _states = new Dictionary<IDStatePlayer, IAnimState>();
 
         private void Awake()
         {
             Animator = GetComponent<Animator>();
         }
 
-        public void Initialize(IInputReader inputReader, StateManager stateManager)
+        public void Initialize(IInputReader inputReader, IDashable dashAction)
         {
-            InputReader = inputReader;
-            _stateManager = stateManager;
+            _inputReader = inputReader;
 
-            if (_stateManager != null)
+
+            if (_inputReader != null)
             {
-                _stateManager.OnStateChanged += HandleLogicStateChanged;
+                BindEvent(() => RequestState(IDStatePlayer.Dash), h => _inputReader.OnDashEvent += h, h => _inputReader.OnDashEvent -= h);
             }
 
-            _idleState = new StateAnimLib.IdleAnimState(this);
-            _runState = new StateAnimLib.RunAnimState(this);
-            _dashState = new StateAnimLib.DashAnimState(this);
 
-            _stateMapping = new Dictionary<IDStatePlayer, IAnimState>
-            {
-                { IDStatePlayer.Idle, _idleState },
-                { IDStatePlayer.Run,  _runState  },
-                { IDStatePlayer.Dash, _dashState }
-            };
+            InitializeStates(_inputReader, dashAction);
 
-            ChangeState(_idleState);
+            ChangeState(IDStatePlayer.Idle);
         }
+
+
+        private void RequestState(IDStatePlayer targetState)
+        {
+            _currentState?.OnStateChangeRequest(targetState);
+        }
+        private void BindEvent(System.Action handler, System.Action<System.Action> subscribe, System.Action<System.Action> unsubscribe)
+        {
+            subscribe(handler);
+            _cleanups.Add(() => unsubscribe(handler));
+        }
+
+
+        private void InitializeStates(IInputReader inputReader, IDashable dashAction)
+        {
+            var ctx = new PlayerAnimStateContext(this, inputReader, dashAction);
+            RegisterState(new IdleAnimState(ctx));
+            RegisterState(new RunAnimState(ctx));
+            RegisterState(new DashAnimState(ctx));
+        }
+        private void RegisterState(IAnimState state)
+        {
+            _states[state.StateID] = state;
+        }
+
 
         private void OnDestroy()
         {
-            if (_stateManager != null)
-            {
-                _stateManager.OnStateChanged -= HandleLogicStateChanged;
-            }
-        }
+            foreach (var cleanup in _cleanups)
+                cleanup();
 
-        private void HandleLogicStateChanged(IState logicState)
-        {
-            if (_stateMapping.TryGetValue(logicState.StateID, out IAnimState animState))
-            {
-                ChangeState(animState);
-            }
-            else
-            {
-                Debug.LogWarning($"[StateAnimManager] Chua co Anim State tuong ung cho logic state: {logicState.StateID}");
-            }
+            _cleanups.Clear();
         }
 
         private void Update()
         {
             _currentState?.Execute();
+        }
+        public void ChangeState(IDStatePlayer id)
+        {
+            if (_states.TryGetValue(id, out IAnimState animState))
+            {
+                ChangeState(animState);
+            }
+            else
+            {
+                Debug.LogWarning($"[StateAnimManager] Khong tim thay state voi ID: {id}");
+            }
         }
 
         public void ChangeState(IAnimState newState)

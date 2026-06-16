@@ -5,7 +5,7 @@ namespace StatePattern.Player
         protected readonly PlayerStateContext _ctx;
 
         protected StateManager _stateManager => _ctx.StateManager;
-        protected IInputReader _inputReader  => _ctx.InputReader;
+        protected IInputReader _inputReader => _ctx.InputReader;
 
         public abstract IDStatePlayer StateID { get; }
 
@@ -20,9 +20,9 @@ namespace StatePattern.Player
         public virtual void FixedExecute() { }
 
         // Logic chuyển sang trạng thái Lướt
-        public virtual void OnDashSignal()
+        public virtual void OnStateChangeRequest(IDStatePlayer id)
         {
-            _stateManager.ChangeState(IDStatePlayer.Dash);
+            _stateManager.ChangeState(id);
         }
     }
 }
